@@ -19,14 +19,8 @@ provider:
   memorySize: 256
 
 custom:
-  couchbase-sdk-layer: !Join
-    - ""
-    - - "arn:aws:lambda:"
-      - !Ref "AWS::Region"
-      - ":"
-      - !Ref "AWS::AccountId"
-      - :layer:couchbase-node-sdk-2-6-11
-      - :${env:COUCHBASE_NODE_SDK_LAYER_VERSION}
+  couchbase-sdk-layer:
+    Fn::ImportValue: couchbase-node-sdk-2-6-11-layer
 
 functions:
   create:
@@ -37,6 +31,7 @@ functions:
       - http:
           method: post
           path: /
+          cors: true
 
   read:
     handler: src/read.default

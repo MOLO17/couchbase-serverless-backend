@@ -11,3 +11,11 @@ layers:
     path: couchbase
     compatibleRuntimes:
       - nodejs12.x
+
+resources:
+  Outputs:
+    CouchbaseNodeSdk2611LayerExport:
+      Value:
+        Ref: CouchbaseDashnodeDashsdkDash2Dash6Dash11LambdaLayer
+      Export:
+        Name: couchbase-node-sdk-2-6-11-layer
