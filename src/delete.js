@@ -1,13 +1,66 @@
 "use strict";
 
-const { successfullHttpResult } = require("./httpResultUtils");
+const {
+  successfullHttpResult,
+  notFoundHttpResult,
+  internalErrorHttpResult
+} = require("./httpResultUtils");
 
-const deleteHandler = async (event, _context) => {
+const { v4 } = require("uuid");
+const { resolve } = require("path");
+const couchbase = require("couchbase");
+
+const {
+  CLUSTER_USERNAME,
+  CLUSTER_PASSWORD,
+  CLUSTER_CONNECTION_STRING,
+  BUCKET
+} = process.env;
+
+const certpath = resolve(process.cwd(), "secrets/ca.pem");
+
+const cluster = new couchbase.Cluster(
+  `${CLUSTER_CONNECTION_STRING}?certpath=${certpath}`
+);
+
+cluster.authenticate(CLUSTER_USERNAME, CLUSTER_PASSWORD);
+
+const bucket = cluster.openBucket(BUCKET);
+
+bucket.on("error", error => {
+  console.log("Error from bucket:", JSON.stringify(error, null, 2));
+});
+
+const deleteHandler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
   const {
     pathParameters: { contactId }
   } = event;
 
-  return successfullHttpResult({ message: `Delete ${contactId}!` });
+  const documentId = `contact::${contactId}`;
+
+  try {
+    const document = await new Promise((resolve, reject) => {
+      bucket.remove(documentId, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({ contactId, ...result });
+        }
+      });
+    });
+
+    return successfullHttpResult(document);
+  } catch (error) {
+    if (error.code == 13) {
+      return notFoundHttpResult(`Contact with id '${contactId}'`);
+    }
+
+    const errorId = v4();
+    console.log(`Error ${errorId}`, JSON.stringify(error, null, 2));
+    return internalErrorHttpResult(errorId);
+  }
 };
 
 module.exports.default = deleteHandler;

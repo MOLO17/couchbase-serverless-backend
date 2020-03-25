@@ -68,6 +68,8 @@ functions:
 
   delete:
     handler: src/delete.default
+    layers:
+      - ${self:custom.couchbase-sdk-layer}
     events:
       - http:
           method: delete
