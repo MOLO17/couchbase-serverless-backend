@@ -16,10 +16,15 @@ const {
   BUCKET
 } = process.env;
 
-const certpath = resolve(process.cwd(), "secrets/ca.pem");
+const isSecure = CLUSTER_CONNECTION_STRING.startsWith("couchbases://");
+const certpath = isSecure
+  ? resolve(process.cwd(), "secrets/ca.pem")
+  : undefined;
 
+const certpathParam = isSecure ? `?certpath=${certpath}` : "";
+`${CLUSTER_CONNECTION_STRING}${certpathParam}`;
 const cluster = new couchbase.Cluster(
-  `${CLUSTER_CONNECTION_STRING}?certpath=${certpath}`
+  `${CLUSTER_CONNECTION_STRING}${certpathParam}`
 );
 
 cluster.authenticate(CLUSTER_USERNAME, CLUSTER_PASSWORD);
