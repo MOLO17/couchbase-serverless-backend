@@ -71,4 +71,9 @@ functions:
     events:
       - http:
           method: delete
-          path: /
+          path: /{contactId}
+          cors: true
+          request:
+            parameters:
+              paths:
+                contactId: true
