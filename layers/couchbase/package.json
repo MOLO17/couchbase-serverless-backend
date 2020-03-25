@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Couchbase node sdk lambda layer",
   "scripts": {
+    "build": "docker build -t amazonlinux-npm-install .",
+    "install-couchbase": "docker run --rm -it -v ${PWD}/nodejs/node_modules:/couchbase/node_modules amazonlinux-npm-install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
