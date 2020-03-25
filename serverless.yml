@@ -54,6 +54,8 @@ functions:
 
   update:
     handler: src/update.default
+    layers:
+      - ${self:custom.couchbase-sdk-layer}
     events:
       - http:
           method: put
