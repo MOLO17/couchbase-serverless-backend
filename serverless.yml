@@ -40,6 +40,8 @@ functions:
 
   read:
     handler: src/read.default
+    layers:
+      - ${self:custom.couchbase-sdk-layer}
     events:
       - http:
           method: get
