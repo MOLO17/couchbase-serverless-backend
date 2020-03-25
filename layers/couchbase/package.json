@@ -1,0 +1,13 @@
+{
+  "name": "couchbase-node-sdk-layer",
+  "version": "1.0.0",
+  "description": "Couchbase node sdk lambda layer",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "couchbase": "^2.6.11"
+  },
+  "author": "Francesco Furlan",
+  "license": "MIT"
+}

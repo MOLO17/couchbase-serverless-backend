@@ -1,0 +1,13 @@
+service:
+  name: couchbase-custom-layers
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+
+layers:
+  couchbase-node-sdk-2-6-11:
+    path: couchbase
+    compatibleRuntimes:
+      - nodejs12.x
