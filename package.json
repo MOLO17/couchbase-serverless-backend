@@ -1,0 +1,16 @@
+{
+  "name": "couchbase-serverless-backend",
+  "version": "1.0.0",
+  "description": "Serverless backend example using Couchbase",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^2.3.2"
+  },
+  "author": "Francesco Furlan",
+  "license": "MIT"
+}

@@ -1,0 +1,47 @@
+service:
+  name: couchbase-serverless-backend
+
+plugins:
+  - serverless-dotenv-plugin
+
+package:
+  exclude:
+    - ".env*"
+    - "**/*.secret"
+    - ".gitsecret/**"
+    - ".vscode/**"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  memorySize: 256
+
+functions:
+  create:
+    handler: src/create.default
+    events:
+      - http:
+          method: post
+          path: /
+
+  read:
+    handler: src/read.default
+    events:
+      - http:
+          method: get
+          path: /
+
+  update:
+    handler: src/update.default
+    events:
+      - http:
+          method: put
+          path: /
+
+  delete:
+    handler: src/delete.default
+    events:
+      - http:
+          method: delete
+          path: /

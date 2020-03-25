@@ -1,0 +1,11 @@
+# package directories
+node_modules
+
+# Serverless directories
+.serverless
+
+# Git secret
+.gitsecret/keys/random_seed
+!*.secret
+.env
+secrets/ca.pem
