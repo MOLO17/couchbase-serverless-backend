@@ -6,6 +6,7 @@ plugins:
 
 package:
   exclude:
+    - "layers/**"
     - ".env*"
     - "**/*.secret"
     - ".gitsecret/**"
@@ -17,9 +18,21 @@ provider:
   region: eu-central-1
   memorySize: 256
 
+custom:
+  couchbase-sdk-layer: !Join
+    - ""
+    - - "arn:aws:lambda:"
+      - !Ref "AWS::Region"
+      - ":"
+      - !Ref "AWS::AccountId"
+      - :layer:couchbase-node-sdk-2-6-11
+      - :${env:COUCHBASE_NODE_SDK_LAYER_VERSION}
+
 functions:
   create:
     handler: src/create.default
+    layers:
+      - ${self:custom.couchbase-sdk-layer}
     events:
       - http:
           method: post
