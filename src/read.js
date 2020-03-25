@@ -1,9 +1,15 @@
-const readHandler = async (_event, _context) => {
+"use strict";
+
+const readHandler = async (event, _context) => {
+  const {
+    pathParameters: { contactId }
+  } = event;
+
   return {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: "Hello from read function!"
+        message: `Hello ${contactId}!`
       },
       null,
       2

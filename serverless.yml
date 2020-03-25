@@ -43,7 +43,12 @@ functions:
     events:
       - http:
           method: get
-          path: /
+          path: /{contactId}
+          cors: true
+          request:
+            parameters:
+              paths:
+                contactId: true
 
   update:
     handler: src/update.default
