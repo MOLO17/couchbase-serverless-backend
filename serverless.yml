@@ -57,7 +57,12 @@ functions:
     events:
       - http:
           method: put
-          path: /
+          path: /{contactId}
+          cors: true
+          request:
+            parameters:
+              paths:
+                contactId: true
 
   delete:
     handler: src/delete.default
